@@ -2,25 +2,29 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hádanka</title>
 <style>
     body {
         font-family: Arial, sans-serif;
         text-align: center;
+        padding: 30px;
     }
 
     .question {
-        margin: 10px;
+        margin: 12px 0;
     }
 
     input {
-        padding: 5px;
+        padding: 8px;
         font-size: 16px;
+        width: 320px;
+        max-width: 90%;
     }
 
-    button {
-        padding: 5px 10px;
-        margin-left: 5px;
+    input.correct {
+        background-color: #e7f7e7;
+        border: 2px solid #4caf50;
     }
 
     .result {
@@ -28,13 +32,14 @@
     }
 
     .box {
-        display: inline-block;
-        width: 40px;
-        height: 40px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 42px;
+        height: 42px;
         border: 2px solid black;
-        margin: 5px;
+        margin: 4px;
         font-size: 24px;
-        line-height: 40px;
         font-weight: bold;
     }
 </style>
@@ -44,43 +49,43 @@
 <h2>Hádanka</h2>
 
 <div class="question">
-    miminek pejsaneček?
-    <input id="q1"><button onclick="check(1)">OK</button>
+    <div>miminek pejsaneček?</div>
+    <input id="q1" autocomplete="off">
 </div>
 
 <div class="question">
-    TOP1 NEJHORŠÍ ZĚMĚ EVER
-    <input id="q2"><button onclick="check(2)">OK</button>
+    <div>TOP1 NEJHORŠÍ ZĚMĚ EVER</div>
+    <input id="q2" autocomplete="off">
 </div>
 
 <div class="question">
-    PANÍ RAJNOCHOVÁ
-    <input id="q3"><button onclick="check(3)">OK</button>
+    <div>PANÍ RAJNOCHOVÁ</div>
+    <input id="q3" autocomplete="off">
 </div>
 
 <div class="question">
-    apparently top jídlo ranked by Alessandra
-    <input id="q4"><button onclick="check(4)">OK</button>
+    <div>apparently top jídlo ranked by Alessandra</div>
+    <input id="q4" autocomplete="off">
 </div>
 
 <div class="question">
-    CO MILUJE ALESSANDRA NEJVÍC NA SVĚTĚ
-    <input id="q5"><button onclick="check(5)">OK</button>
+    <div>CO MILUJE ALESSANDRA NEJVÍC NA SVĚTĚ</div>
+    <input id="q5" autocomplete="off">
 </div>
 
 <div class="question">
-    Nejvíc rated auto českých pepíku?
-    <input id="q6"><button onclick="check(6)">OK</button>
+    <div>Nejvíc rated auto českých pepíku?</div>
+    <input id="q6" autocomplete="off">
 </div>
 
 <div class="question">
-    PIČUS HAHHAHAHAHAHAHAH
-    <input id="q7"><button onclick="check(7)">OK</button>
+    <div>PIČUS HAHHAHAHAHAHAHAH</div>
+    <input id="q7" autocomplete="off">
 </div>
 
 <div class="question">
-    Nejlepší slovo na planetě
-    <input id="q8"><button onclick="check(8)">OK</button>
+    <div>Nejlepší slovo na planetě</div>
+    <input id="q8" autocomplete="off">
 </div>
 
 <div class="result">
@@ -95,30 +100,65 @@
         <div class="box" id="b7"></div>
         <div class="box" id="b8"></div>
     </div>
+    <img id="finalImage" src="IMG_3521.jpeg" style="display:none; margin-top:20px;">
 </div>
 
 <script>
 const answers = {
-    1: { answer: "jessi", letter: "S" },
-    2: { answer: "filipíny", letter: "I" },
-    3: { answer: "xenie", letter: "X" },
-    4: { answer: "smažak", letter: "S" },
-    5: { answer: "pera", letter: "E" },
-    6: { answer: "oktávka", letter: "V" },
-    7: { answer: "radek", letter: "E" },
-    8: { answer: "n word", letter: "N" }
+    1: { answers: ["jesSi", "jesSie"], letter: "S" },
+    2: { answers: ["fIlipíny"], letter: "I" },
+    3: { answers: ["Xenie", "Xeňa", "Xena"], letter: "X" },
+    4: { answers: ["Smažak"], letter: "S" },
+    5: { answers: ["pEra", "pEro"], letter: "E" },
+    6: { answers: ["oktáVka", "octaVia"], letter: "V" },
+    7: { answers: ["radEk"], letter: "E" },
+    8: { answers: ["N-word", "Nword", "N word"], letter: "N" }
 };
 
 function normalize(str) {
-    return str.toLowerCase().trim();
+    return str
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim();
 }
 
-function check(q) {
-    let input = document.getElementById("q" + q).value;
-    if (normalize(input) === answers[q].answer) {
-        document.getElementById("b" + q).innerText = answers[q].letter;
-    } else {
-        alert("Špatně 😄");
+function checkAnswer(q) {
+    const input = document.getElementById("q" + q);
+    const possibleAnswers = answers[q].answers.map(a => normalize(a));
+    const actual = normalize(input.value);
+
+    if (possibleAnswers.includes(actual)) {
+        input.disabled = true;
+        input.classList.add("correct");
+        input.value = answers[q].answers[0];
+        document.getElementById("b" + q).textContent = answers[q].letter;
+
+        solved[q - 1] = true;
+        checkCompletion();
+    }
+}
+
+for (let i = 1; i <= 8; i++) {
+    document.getElementById("q" + i).addEventListener("input", () => checkAnswer(i));
+}
+
+let solved = new Array(8).fill(false);
+let finished = false;
+
+function checkCompletion() {
+    if (finished) return;
+
+    if (solved.every(v => v)) {
+        finished = true;
+
+        // zobraz obrázek
+        document.getElementById("finalImage").style.display = "block";
+
+        // popup
+        setTimeout(() => {
+            alert("🎉 VŠECHNO NEJLEPŠÍÍ ALESSKO 🎉");
+        }, 200);
     }
 }
 </script>
