@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>Hádanka</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+
+    .question {
+        margin: 10px;
+    }
+
+    input {
+        padding: 5px;
+        font-size: 16px;
+    }
+
+    button {
+        padding: 5px 10px;
+        margin-left: 5px;
+    }
+
+    .result {
+        margin-top: 30px;
+    }
+
+    .box {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        border: 2px solid black;
+        margin: 5px;
+        font-size: 24px;
+        line-height: 40px;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+
+<h2>Hádanka</h2>
+
+<div class="question">
+    miminek pejsaneček?
+    <input id="q1"><button onclick="check(1)">OK</button>
+</div>
+
+<div class="question">
+    TOP1 NEJHORŠÍ ZĚMĚ EVER
+    <input id="q2"><button onclick="check(2)">OK</button>
+</div>
+
+<div class="question">
+    PANÍ RAJNOCHOVÁ
+    <input id="q3"><button onclick="check(3)">OK</button>
+</div>
+
+<div class="question">
+    apparently top jídlo ranked by Alessandra
+    <input id="q4"><button onclick="check(4)">OK</button>
+</div>
+
+<div class="question">
+    CO MILUJE ALESSANDRA NEJVÍC NA SVĚTĚ
+    <input id="q5"><button onclick="check(5)">OK</button>
+</div>
+
+<div class="question">
+    Nejvíc rated auto českých pepíku?
+    <input id="q6"><button onclick="check(6)">OK</button>
+</div>
+
+<div class="question">
+    PIČUS HAHHAHAHAHAHAHAH
+    <input id="q7"><button onclick="check(7)">OK</button>
+</div>
+
+<div class="question">
+    Nejlepší slovo na planetě
+    <input id="q8"><button onclick="check(8)">OK</button>
+</div>
+
+<div class="result">
+    <h3>Tajenka:</h3>
+    <div id="boxes">
+        <div class="box" id="b1"></div>
+        <div class="box" id="b2"></div>
+        <div class="box" id="b3"></div>
+        <div class="box" id="b4"></div>
+        <div class="box" id="b5"></div>
+        <div class="box" id="b6"></div>
+        <div class="box" id="b7"></div>
+        <div class="box" id="b8"></div>
+    </div>
+</div>
+
+<script>
+const answers = {
+    1: { answer: "jessi", letter: "S" },
+    2: { answer: "filipíny", letter: "I" },
+    3: { answer: "xenie", letter: "X" },
+    4: { answer: "smažak", letter: "S" },
+    5: { answer: "pera", letter: "E" },
+    6: { answer: "oktávka", letter: "V" },
+    7: { answer: "radek", letter: "E" },
+    8: { answer: "n word", letter: "N" }
+};
+
+function normalize(str) {
+    return str.toLowerCase().trim();
+}
+
+function check(q) {
+    let input = document.getElementById("q" + q).value;
+    if (normalize(input) === answers[q].answer) {
+        document.getElementById("b" + q).innerText = answers[q].letter;
+    } else {
+        alert("Špatně 😄");
+    }
+}
+</script>
+
+</body>
+</html>
