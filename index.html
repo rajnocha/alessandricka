@@ -1,60 +1,24 @@
 <!DOCTYPE html>
 <html lang="cs">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hádanka</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        padding: 30px;
-    }
-
-    .question {
-        margin: 12px 0;
-    }
-
-    input {
-        padding: 8px;
-        font-size: 16px;
-        width: 320px;
-        max-width: 90%;
-    }
-
-    input.correct {
-        background-color: #e7f7e7;
-        border: 2px solid #4caf50;
-    }
-
-    .result {
-        margin-top: 30px;
-    }
-
-    .box {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        width: 42px;
-        height: 42px;
-        border: 2px solid black;
-        margin: 4px;
-        font-size: 24px;
-        font-weight: bold;
-    }
-</style>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" type="image/x-icon" href="pics/icon.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <title>MOZKOTRÁPIČ ALEKSANDŘIČ</title>
 </head>
 <body>
 
-<h2>Hádanka</h2>
+<h2>AAAAMMMMM</h2>
 
 <div class="question">
-    <div>miminek pejsaneček?</div>
+    <div>Jméno tohohle pupíčka: 😜 </div>
     <input id="q1" autocomplete="off">
 </div>
 
 <div class="question">
-    <div>TOP1 NEJHORŠÍ ZĚMĚ EVER</div>
+    <div>‼️TOP1 NEJHORŠÍ ZĚMĚ EVER‼️</div>
     <input id="q2" autocomplete="off">
 </div>
 
@@ -64,27 +28,28 @@
 </div>
 
 <div class="question">
-    <div>apparently top jídlo ranked by Alessandra</div>
+    <div>Apparently TOP 1 jídlo ranked by AM🍲</div>
     <input id="q4" autocomplete="off">
 </div>
 
 <div class="question">
     <div>CO MILUJE ALESSANDRA NEJVÍC NA SVĚTĚ</div>
+    <p>hint: není to Adam 1 👀</p>
     <input id="q5" autocomplete="off">
 </div>
 
 <div class="question">
-    <div>Nejvíc rated auto českých pepíku?</div>
+    <div>Nesmrtelný vůz, který je i napříč své pověsti velice smrtelný😞</div>
     <input id="q6" autocomplete="off">
 </div>
 
 <div class="question">
-    <div>PIČUS HAHHAHAHAHAHAHAH</div>
+    <div>Co Adam R ZARUČENĚ NENÍ A NEBUDE😠</div>
     <input id="q7" autocomplete="off">
 </div>
 
 <div class="question">
-    <div>Nejlepší slovo na planetě</div>
+    <div>TOP 1 slovo OAT😜🐒🅱️</div>
     <input id="q8" autocomplete="off">
 </div>
 
@@ -100,68 +65,26 @@
         <div class="box" id="b7"></div>
         <div class="box" id="b8"></div>
     </div>
-    <img id="finalImage" src="IMG_3521.jpeg" style="display:none; margin-top:20px;">
 </div>
 
-<script>
-const answers = {
-    1: { answers: ["jesSi", "jesSie"], letter: "S" },
-    2: { answers: ["fIlipíny"], letter: "I" },
-    3: { answers: ["Xenie", "Xeňa", "Xena"], letter: "X" },
-    4: { answers: ["Smažak"], letter: "S" },
-    5: { answers: ["pEra", "pEro"], letter: "E" },
-    6: { answers: ["oktáVka", "octaVia"], letter: "V" },
-    7: { answers: ["radEk"], letter: "E" },
-    8: { answers: ["N-word", "Nword", "N word"], letter: "N" }
-};
+<div id="birthdayPopup" class="popup-overlay">
+    <div class="popup-box">
+        <div class="popup-hearts">💖 ✨ 🎀 ✨ 💖</div>
+        <h2>VŠEEEECHNO NEJLEPŠÍÍ ALESSANDŘIČKO</h2>
+        <p>🍆💩🍆</p>
+        <button id="closePopup">Zavřít</button>
+    </div>
+        <img id="finalImage" src="pics/aless.png">
+</div>
 
-function normalize(str) {
-    return str
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .trim();
-}
-
-function checkAnswer(q) {
-    const input = document.getElementById("q" + q);
-    const possibleAnswers = answers[q].answers.map(a => normalize(a));
-    const actual = normalize(input.value);
-
-    if (possibleAnswers.includes(actual)) {
-        input.disabled = true;
-        input.classList.add("correct");
-        input.value = answers[q].answers[0];
-        document.getElementById("b" + q).textContent = answers[q].letter;
-
-        solved[q - 1] = true;
-        checkCompletion();
-    }
-}
-
-for (let i = 1; i <= 8; i++) {
-    document.getElementById("q" + i).addEventListener("input", () => checkAnswer(i));
-}
-
-let solved = new Array(8).fill(false);
-let finished = false;
-
-function checkCompletion() {
-    if (finished) return;
-
-    if (solved.every(v => v)) {
-        finished = true;
-
-        // zobraz obrázek
-        document.getElementById("finalImage").style.display = "block";
-
-        // popup
-        setTimeout(() => {
-            alert("🎉 VŠECHNO NEJLEPŠÍÍ ALESSKO 🎉");
-        }, 200);
-    }
-}
-</script>
+<div id="qrPopup" class="popup-overlay">
+    <div class="popup-box">
+        <h2>VYTAS MOBIL A SKENUJ</h2>
+        <img id="Image" src="pics/qr.png" alt="QR kód" style="max-width: 260px; width: 100%; border-radius: 16px; margin-bottom: 20px, text-align: center;">
+        <button id="closeQrPopup" style="margin-top: 20px;">Zavřít</button>
+    </div>
+</div>
+<script src="script.js"></script>
 
 </body>
 </html>
